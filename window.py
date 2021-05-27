@@ -1,4 +1,5 @@
 import tkinter as tk
+from threading import Thread
 from tkinter import ttk
 from tkinter.ttk import Progressbar
 
@@ -23,7 +24,12 @@ binning_entry = tk.Entry(master=frame)
 
 progress = Progressbar(window, orient=tk.HORIZONTAL,
                        length=100, mode='determinate')
+progress_label = tk.Label(master=frame)
 
+def threading():
+    t1 = Thread(target = action)
+    t1.setDaemon(True)
+    t1.start()
 
 def action():
     path = path_entry.get()
@@ -57,13 +63,17 @@ def action():
         # select micrograph 1 as example, plotting it using matplotlib
         for (x, y) in fitted_points:
             plt.scatter(x, y)
-            plt.savefig("aligned_micrograph" + str(i)+".png", format="png")
-            plt.close()
+            plt.savefig("./sample_output/aligned_micrograph" + str(i)+".png", format="png")
+
+        plt.close()
         progress['value'] += 100 / len(newlist)
+        progress_label['text'] = ("Micrograph #:" + str(i)+ " processed, continuing...")
         i += 1
 
+    progress["value"] = 0
 
-button = tk.Button(window, text="submit", command=action)
+
+button = tk.Button(window, text="submit", command=threading)
 
 path_label.pack()
 path_entry.pack()
@@ -73,5 +83,6 @@ binning_factor.pack()
 binning_entry.pack()
 button.pack()
 progress.pack(pady=10)
+progress_label.pack(pady=10)
 
 window.mainloop()

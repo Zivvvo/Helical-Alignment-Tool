@@ -23,4 +23,4 @@ fitted_points = fit.fit_micrograph(helices)
 # select micrograph 1 as example, plotting it using matplotlib
 for (x, y) in fitted_points:
     plt.scatter(x, y)
-    plt.savefig("aligned_micrograph_1.png", format= "png")
+    plt.savefig("aligned_micrograph_1_multithread.png", format= "png")
