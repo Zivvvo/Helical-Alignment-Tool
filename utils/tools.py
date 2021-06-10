@@ -121,5 +121,34 @@ def adjust_psi(helix, standard_dev_coefficient):
     for i in range(helix.shape[0]):
         if np.abs(arr[i]) > standard_dev_coefficient:
             helix[i,8] = mean_psi
-    return helix
+    return
+
+
+def get_Rand_Point(helix, n):
+    if helix.shape[0] < n:
+        return helix[random.randrange(0, helix.shape[0])]
+    else:
+        score_x_arr = avg_shiftx(helix, n)
+        score_y_arr = avg_shifty(helix, n)
+        score_combination_arr = score_x_arr + score_y_arr
+        index = np.argmin(score_combination_arr)
+        return helix[index]
+
+
+def avg_shiftx(helix, n):
+    min_dev = 1000
+    score_arr = np.zeros(len(helix), )
+    for i in range(n - 1, len(helix)):
+        avg_dev = np.std(helix[i - (n - 1):i, 4])
+        score_arr[i - int(n / 2)] = avg_dev
+    return score_arr
+
+
+def avg_shifty(helix, n):
+    min_dev = 1000
+    score_arr = np.zeros(len(helix), )
+    for i in range(n - 1, len(helix)):
+        avg_dev = np.std(helix[i - (n - 1):i, 5])
+        score_arr[i - int(n / 2)] = avg_dev
+    return score_arr
 

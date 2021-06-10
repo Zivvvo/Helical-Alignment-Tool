@@ -18,7 +18,7 @@ def fit_micrograph(helices):
 
 def fit_helix(fitted_points, helix):
     fitted_points_in_helix = []
-    rand_point = helix[random.randrange(0, helix.shape[0])]
+    rand_point = get_Rand_Point(helix, 5)
 
     max_x = np.amax(helix, axis=0)[0]
     max_y = np.amax(helix, axis=0)[1]
